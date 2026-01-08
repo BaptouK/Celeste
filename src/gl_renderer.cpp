@@ -144,18 +144,26 @@ bool gl_init(BumpAllocator* transientStorage){
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, width, height,
-                  0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+      // Use an internal format that includes alpha so the texture's alpha isn't discarded
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, width, height,
+          0, GL_RGBA, GL_UNSIGNED_BYTE, data);
       stbi_image_free(data);
 
 
     }
 
+    glEnable(GL_FRAMEBUFFER_SRGB);
+    glDisable(0x809D);
+
+    // Enable blending so alpha in the texture is used for transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_GREATER);
 
     //Use program
-    glUseProgram(glContext.programID);
+    glUseProgram(glContext.programID); 
 
     return true;
 };
