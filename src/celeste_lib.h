@@ -26,6 +26,13 @@
 #define EXPORT_FN
 #endif
 
+#define b8 char
+#define BIT(x) 1 << (x)
+#define KB(x) ((unsigned long long)1024 * x)
+#define MB(x) ((unsigned long long)1024 * KB(x))
+#define GB(x) ((unsigned long long)1024 * MB(x))
+
+
 // ###################################################################################
 //                                  Logging
 // ###################################################################################
@@ -83,9 +90,9 @@ void _log(char* prefix, char* msg, TextColor textColor, Args... args)
   puts(textBuffer);
 }
 
-#define SM_TRACE(msg, ...) _log("TRACE: ",msg,TEXT_COLOR_RED, ##__VA_ARGS__);
+#define SM_TRACE(msg, ...) _log("TRACE: ",msg,TEXT_COLOR_GREEN, ##__VA_ARGS__);
 #define SM_WARN(msg, ...) _log("WARN: ",msg,TEXT_COLOR_YELLOW, ##__VA_ARGS__);
-#define SM_ERROR(msg, ...) _log("ERROR: ",msg,TEXT_COLOR_GREEN, ##__VA_ARGS__);
+#define SM_ERROR(msg, ...) _log("ERROR: ",msg,TEXT_COLOR_RED, ##__VA_ARGS__);
 
 #define SM_ASSERT(x, msg, ...)    \
 {                                 \
